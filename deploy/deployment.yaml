@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+  labels:
+    app: flask-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: flask-app
+        image: gcr.io/first-microservice-423400/flask-app:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: "/home/brundhareddy97/gemini-app/backend/first-microservice-423400-99c350b14683.json"
+        volumeMounts:
+        - name: secret-volume
+          mountPath: /secrets
+          readOnly: true
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: google-cloud-key

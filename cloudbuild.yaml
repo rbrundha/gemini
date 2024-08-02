@@ -1,0 +1,21 @@
+options:
+  logging: CLOUD_LOGGING_ONLY  # Or specify a logs bucket here
+
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/first-microservice-423400/flask-app:latest', './backend']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/first-microservice-423400/flask-app:latest']
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['apply', '-f', 'deploy/deployment.yaml']
+  env:
+    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-e'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
+ 
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['apply', '-f', 'deploy/service.yaml']
+  env:
+    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-e'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
+images:
+- 'gcr.io/first-microservice-423400/flask-app:latest'
