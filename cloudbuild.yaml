@@ -15,7 +15,7 @@ steps:
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['apply', '-f', 'deploy/service.yaml']
   env:
-    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-e'
+    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
     - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
 images:
 - 'gcr.io/first-microservice-423400/flask-app:latest'
